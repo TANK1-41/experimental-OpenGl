@@ -89,7 +89,7 @@ int main(void)
         Shader shader("res/shaders/basic.shader");
         shader.Bind();
 
-        //shader.SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
+        shader.SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
 
         Texture texture("res/textures/cherno.png");
         texture.Bind();
@@ -112,7 +112,7 @@ int main(void)
 
             shader.Bind();
             shader.SetUniform4i("u_Texture",0);
-            //shader.SetUniform4f("u_Color", red, 0.3f, 0.8f, 1.0f);
+            shader.SetUniform4f("u_Color", red, 0.3f, 0.8f, 1.0f);
             
             renderer.draw(va,ib,shader);
 
