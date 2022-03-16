@@ -11,7 +11,8 @@
 #include "Shader.h"
 #include "texture.h"
 #include "VertexBufferLayout.h"
-
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width = 640, int height=480)
 {
@@ -85,11 +86,14 @@ int main(void)
 
         //creating a index buffer
         IndexBuffer ib(indices, 6);
-        
+
+        glm::mat4 proj = glm::ortho(-2.0f,2.0f,-1.5f,1.5f,-1.0f,1.0f);
+
         Shader shader("res/shaders/basic.shader");
         shader.Bind();
 
         shader.SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
+        shader.SetUniformMat4f("u_MVP", proj);
 
         Texture texture("res/textures/cherno.png");
         texture.Bind();
