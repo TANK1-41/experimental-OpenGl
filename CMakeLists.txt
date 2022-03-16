@@ -3,66 +3,77 @@ project(OpenGL)
 
 set(CMAKE_CXX_STANDARD 14)
 
+#find_package(OpenGL REQUIRED)
 
+## Ask the user to give the paths to GLFW, GLEW and GLM.
+## On Linux this can be found automatically with pkg-config;
+## see http://stackoverflow.com/questions/6889264/cmake-flags-for-opengl-using-glew-and-glfw, for instance.
+#
+#set(GLFW_INCLUDE_PATH "" CACHE PATH "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include" )
+#set(GLFW_LIBRARY "" CACHE FILEPATH "glfw3" )
+#
+#set(GLEW_INCLUDE_PATH "" CACHE PATH "${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include" )
+#set(GLEW_LIBRARY "" CACHE FILEPATH "glew32s" )
+#
+#
+#set(MY_HEADER_FILES
+#        # put all your .h here. Right now we have none.
+#        # Example :
+#        # ../common/shader.hpp
+#        )
+#
+#set(MY_SOURCE_FILES
+#        # put all your .c/.cpp here.
+#        src/Application.cpp
+#        # ../common/shader.cpp
+#        )
+#
+#
+#
+#include_directories(
+#        ${GLFW_INCLUDE_PATH}
+#        ${GLEW_INCLUDE_PATH}
+#)
+#add_executable(OpenGL
+#        ${MY_HEADER_FILES}
+#        ${MY_SOURCE_FILES}
+#        )
+#target_link_libraries(OpenGL
+#        ${OPENGL_LIBRARY} # filled by "find_package(OpenGL REQUIRED)"
+#        ${GLFW_LIBRARY}
+#        ${GLEW_LIBRARY}
+#        )
+#
+#
+#
+#
+## HOW-TO. You can safely remove anything below.
+#
+## test if linux, mac or windows :
+#
+#if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+#    message("You're on Mac OS !")
+#elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+#    message("You're on Linux !")
+#elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+#    message("You're on Windows !")
+#endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # Yes this is weird but you have to repeat the "if" here.
+#
+#
+## Add a checkbox in CMakeGUI :
+#
+#set(SOME_STUFF OFF CACHE BOOL "Check this to print an extra message at the beginning of main()")
+
+
+
+find_package(OpenGL REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include)
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include)
-link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib/Release/Win32/)
-link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/)
-#target_link_libraries(${PROJECT_NAME} glew32s, glfw3, opengl123)
 
-# Locate the glfw3 library
-#
-# This module defines the following variables:
-#
-# GLFW3_LIBRARY the name of the library;
-# GLFW3_INCLUDE_DIR where to find glfw include files.
-# GLFW3_FOUND true if both the GLFW3_LIBRARY and GLFW3_INCLUDE_DIR have been found.
-#
-# To help locate the library and include file, you can define a
-# variable called GLFW3_ROOT which points to the root of the glfw library
-# installation.
-#
-# default search dirs
-#
-# Cmake file from: https://github.com/daw42/glslcookbook
-
-set( _glfw3_HEADER_SEARCH_DIRS
-        "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include")
-set( _glfw3_LIB_SEARCH_DIRS
-        "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/" )
-
-set( _glew_HEADER_SEARCH_DIRS
-        "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/")
-set( _glew_LIB_SEARCH_DIRS
-        "${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib/Release/Win32/" )
-# Check environment for root search directory
-set( _glfw3_ENV_ROOT $ENV{GLFW3_ROOT} )
-if( NOT GLFW3_ROOT AND _glfw3_ENV_ROOT )
-    set(GLFW3_ROOT ${_glfw3_ENV_ROOT} )
-endif()
-
-# Put user specified location at beginning of search
-if( GLFW3_ROOT )
-    list( INSERT _glfw3_HEADER_SEARCH_DIRS 0 "${GLFW3_ROOT}/include" )
-    list( INSERT _glfw3_LIB_SEARCH_DIRS 0 "${GLFW3_ROOT}/lib" )
-endif()
-
-# Search for the header
-FIND_PATH(GLFW3_INCLUDE_DIR "GLFW/glfw3.h"
-        PATHS ${_glfw3_HEADER_SEARCH_DIRS} )
-
-FIND_PATH(GLEW_INCLUDE_DIR "GL/glew.h"
-        PATHS ${_glew_HEADER_SEARCH_DIRS} )
-
-# Search for the library
-FIND_LIBRARY(GLFW3_LIBRARY NAMES glfw3 glfw
-        PATHS ${_glfw3_LIB_SEARCH_DIRS} )
-
-FIND_LIBRARY(GLEW_LIBRARY NAMES glew32s
-        PATHS ${_glew_LIB_SEARCH_DIRS} )
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLFW3 DEFAULT_MSG
-        GLFW3_LIBRARY GLFW3_INCLUDE_DIR GLEW_LIBRARY GLEW_INCLUDE_DIR)
+link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib/Release/Win32)
+link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019)
 
 add_executable(${PROJECT_NAME} src/Application.cpp)
+target_link_libraries(${PROJECT_NAME} glew32s glfw3 opengl32)
+
