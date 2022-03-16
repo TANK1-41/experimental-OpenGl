@@ -8,6 +8,7 @@ find_package(OpenGL REQUIRED)
 set(CMAKE_C_FLAGS -m32)
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include)
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include)
+include_directories(${PROJECT_SOURCE_DIR}/src/vender)
 
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib/Release/Win32/)
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/)
