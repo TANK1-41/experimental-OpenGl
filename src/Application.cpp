@@ -1,33 +1,30 @@
-#include<string>
-#include<sstream>
-#include<fstream>
-#include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include "Renderer.h"
-#include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "VertexArray.h"
+#include "Renderer.h"
 #include "Shader.h"
-#include "texture.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "texture.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
 
-void framebuffer_size_callback(GLFWwindow* window, int width = 640, int height=480)
-{
-	glViewport(0, 0, width, height);
-
+void framebuffer_size_callback(GLFWwindow *window, int width = 640, int height = 480) {
+    glViewport(0, 0, width, height);
 }
 
-int main(void)
-{
-    GLFWwindow* window;
+int main(void) {
+    GLFWwindow *window;
 
     /* Initialize the library */
     if (!glfwInit())
         return -1;
-    
+
     //sets to core profile
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
@@ -35,8 +32,7 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
-    if (!window)
-    {
+    if (!window) {
         glfwTerminate();
         return -1;
     }
@@ -48,26 +44,26 @@ int main(void)
     //specifies the view of the window -https://learnopengl.com/Getting-started/Hello-Window
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     /*inits glewInit*/
-    if(glewInit() != GLEW_OK)
-	    std::cout << "Glew init failed"<<std::endl;
+    if (glewInit() != GLEW_OK)
+        std::cout << "Glew init failed" << std::endl;
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        
-        float positions[] = {
-          //first triangle
-          100.f,100.f, 0.0f,0.0f, //0
-          200.f,100.f,1.0f,0.0f,//1
-          200.f,200.f, 1.0f,1.0f,//2
-          //second triangle
 
-          100.f,200.f, 0.0f,1.0f//3
+        float positions[] = {
+                //first triangle
+                100.f, 100.f, 0.0f, 0.0f,//0
+                200.f, 100.f, 1.0f, 0.0f,//1
+                200.f, 200.f, 1.0f, 1.0f,//2
+                //second triangle
+
+                100.f, 200.f, 0.0f, 1.0f//3
 
         };
 
         unsigned int indices[]{
-            0,1,2,//first triangle
-            2,3,0//second triangle
+                0, 1, 2,//first triangle
+                2, 3, 0 //second triangle
         };
         //enables blending for textures
         GLCall(glEnable(GL_BLEND));
@@ -82,12 +78,12 @@ int main(void)
         VertexBufferLayout layout;
         layout.Push<float>(2);
         layout.Push<float>(2);
-        va.AddBuffer(vb,layout);
+        va.AddBuffer(vb, layout);
 
         //creating a index buffer
         IndexBuffer ib(indices, 6);
         //math for aspect ratio
-        glm::mat4 proj = glm::ortho(0.f,960.f,0.f,540.f,-1.0f,1.0f);
+        glm::mat4 proj = glm::ortho(0.f, 960.f, 0.f, 540.f, -1.0f, 1.0f);
 
         Shader shader("res/shaders/basic.shader");
         shader.Bind();
@@ -97,7 +93,7 @@ int main(void)
 
         Texture texture("res/textures/cherno.png");
         texture.Bind();
-        shader.SetUniform4i("u_Texture",0);
+        shader.SetUniform4i("u_Texture", 0);
         //used to increment the uniform color
         float red = 0.0f;
         float incrementColor = 0.05f;
@@ -109,22 +105,20 @@ int main(void)
         vb.Unbind();
         ib.Unbind();
         /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
-        {
+        while (!glfwWindowShouldClose(window)) {
             /* Render here */
             renderer.clear();
 
             shader.Bind();
-            shader.SetUniform4i("u_Texture",0);
+            shader.SetUniform4i("u_Texture", 0);
             shader.SetUniform4f("u_Color", red, 0.3f, 0.8f, 1.0f);
-            
-            renderer.draw(va,ib,shader);
 
-            //increments color every frame 
+            renderer.draw(va, ib, shader);
+
+            //increments color every frame
             if (red > 1.0f) {
                 incrementColor = -0.05f;
-            }
-            else if (red < 0.0f) {
+            } else if (red < 0.0f) {
                 incrementColor = 0.05f;
             }
             red += incrementColor;
