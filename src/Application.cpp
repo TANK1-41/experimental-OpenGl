@@ -7,6 +7,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "texture.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw_gl3.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <fstream>
@@ -26,8 +28,8 @@ int main(void) {
         return -1;
 
     //sets to core profile
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
@@ -84,12 +86,17 @@ int main(void) {
         IndexBuffer ib(indices, 6);
         //math for aspect ratio
         glm::mat4 proj = glm::ortho(0.f, 960.f, 0.f, 540.f, -1.0f, 1.0f);
+        //camera view
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100,-100,0));
+        //model matrix translation used in game loop
+        glm::vec3 translation(200,200,0);
+
 
         Shader shader("res/shaders/basic.shader");
         shader.Bind();
 
         shader.SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
-        shader.SetUniformMat4f("u_MVP", proj);
+
 
         Texture texture("res/textures/cherno.png");
         texture.Bind();
@@ -100,6 +107,12 @@ int main(void) {
 
         Renderer renderer;
 
+        ImGui::CreateContext();
+        ImGui_ImplGlfwGL3_Init(window, true);
+        ImGui::StyleColorsDark();
+        //imgui sample window vars
+
+
         shader.Unbind();
         va.Unbind();
         vb.Unbind();
@@ -109,9 +122,16 @@ int main(void) {
             /* Render here */
             renderer.clear();
 
+            ImGui_ImplGlfwGL3_NewFrame();
+
             shader.Bind();
+            //model matrix
+            glm::mat4 model = glm::translate(glm::mat4(1.0f),translation);
+
+            glm::mat4 mvp = proj * view * model;
             shader.SetUniform4i("u_Texture", 0);
             shader.SetUniform4f("u_Color", red, 0.3f, 0.8f, 1.0f);
+            shader.SetUniformMat4f("u_MVP", mvp);
 
             renderer.draw(va, ib, shader);
 
@@ -123,6 +143,15 @@ int main(void) {
             }
             red += incrementColor;
 
+
+
+            // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
+            {
+                ImGui::SliderFloat3("translation", &translation.x, 0.0f, 960.f);
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+            ImGui::Render();
+            ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
@@ -130,6 +159,10 @@ int main(void) {
             glfwPollEvents();
         }
     }
+    // Cleanup
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
+    glfwTerminate();
     glfwTerminate();
     return 0;
 }
