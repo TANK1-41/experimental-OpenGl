@@ -54,12 +54,12 @@ int main(void) {
 
         float positions[] = {
                 //first triangle
-                100.f, 100.f, 0.0f, 0.0f,//0
-                200.f, 100.f, 1.0f, 0.0f,//1
-                200.f, 200.f, 1.0f, 1.0f,//2
+                -50.f, -50.f, 0.0f, 0.0f,//0
+                 50.f, -50.f, 1.0f, 0.0f,//1
+                 50.f, 50.f, 1.0f, 1.0f,//2
                 //second triangle
 
-                100.f, 200.f, 0.0f, 1.0f//3
+                -50.f, 50.f, 0.0f, 1.0f//3
 
         };
 
@@ -87,9 +87,10 @@ int main(void) {
         //math for aspect ratio
         glm::mat4 proj = glm::ortho(0.f, 960.f, 0.f, 540.f, -1.0f, 1.0f);
         //camera view
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100,-100,0));
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,0));
         //model matrix translation used in game loop
-        glm::vec3 translation(200,200,0);
+        glm::vec3 translationA(200,200,0);
+        glm::vec3 translationB(400,200,0);
 
 
         Shader shader("res/shaders/basic.shader");
@@ -125,16 +126,23 @@ int main(void) {
             ImGui_ImplGlfwGL3_NewFrame();
 
             shader.Bind();
-            //model matrix
-            glm::mat4 model = glm::translate(glm::mat4(1.0f),translation);
+            {
+                //model matrixA
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
+                glm::mat4 mvp = proj * view * model;
+                shader.SetUniformMat4f("u_MVP", mvp);
+                renderer.draw(va, ib, shader);
+            }
 
-            glm::mat4 mvp = proj * view * model;
+            {
+                //model matrixB
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
+                glm::mat4 mvp = proj * view * model;
+                shader.SetUniformMat4f("u_MVP", mvp);
+                renderer.draw(va, ib, shader);
+            }
+
             shader.SetUniform4i("u_Texture", 0);
-            shader.SetUniform4f("u_Color", red, 0.3f, 0.8f, 1.0f);
-            shader.SetUniformMat4f("u_MVP", mvp);
-
-            renderer.draw(va, ib, shader);
-
             //increments color every frame
             if (red > 1.0f) {
                 incrementColor = -0.05f;
@@ -147,7 +155,8 @@ int main(void) {
 
             // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
             {
-                ImGui::SliderFloat3("translation", &translation.x, 0.0f, 960.f);
+                ImGui::SliderFloat3("translationA", &translationA.x, 0.0f, 960.f);
+                ImGui::SliderFloat3("translationB", &translationB.x, 0.0f, 960.f);
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             }
             ImGui::Render();
