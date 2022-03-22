@@ -33,8 +33,10 @@ int main(void) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    //window width and hight
+    unsigned int width{960},height{540};
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -50,6 +52,7 @@ int main(void) {
     if (glewInit() != GLEW_OK)
         std::cout << "Glew init failed" << std::endl;
 
+    glViewport(0,0,width,height);
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
 
