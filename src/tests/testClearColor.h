@@ -5,8 +5,8 @@
 #pragma once
 #include "tests.h"
 
-namespace test{
-    class TestClearColor : public Test{
+namespace test {
+    class TestClearColor : public Test {
     public:
         TestClearColor();
         ~TestClearColor() override;
@@ -18,4 +18,4 @@ namespace test{
     private:
         float m_ClearColor[4];
     };
-}
+}// namespace test
