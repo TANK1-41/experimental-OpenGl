@@ -5,14 +5,14 @@
 #pragma once
 #define OPENGL_TESTS_H
 
-namespace test{
-    class Test{
+namespace test {
+    class Test {
     public:
-        Test(){}
-        virtual ~Test(){}
+        Test() {}
+        virtual ~Test() {}
 
-        virtual void OnUpdate(float deltaTime) {};
-        virtual void OnRender() {};
-        virtual void OnImGuiRender() {};
+        virtual void OnUpdate(float deltaTime){};
+        virtual void OnRender(){};
+        virtual void OnImGuiRender(){};
     };
-}
+}// namespace test
