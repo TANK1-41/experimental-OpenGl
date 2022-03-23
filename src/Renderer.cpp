@@ -24,3 +24,4 @@ void Renderer::draw(const VertexArray &va, const IndexBuffer &ib, const Shader &
     ib.Bind();
     GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
+
