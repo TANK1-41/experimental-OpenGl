@@ -6,10 +6,10 @@
 #include "VertexBufferLayout.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "texture.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw_gl3.h"
 #include "tests/testClearColor.h"
+#include "texture.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <fstream>
@@ -17,11 +17,13 @@
 #include <sstream>
 #include <string>
 
-void framebuffer_size_callback(GLFWwindow *window, int width = 640, int height = 480) {
+void framebuffer_size_callback(GLFWwindow *window, int width = 640, int height = 480)
+{
     glViewport(0, 0, width, height);
 }
 
-int main(void) {
+int main(void)
+{
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -34,10 +36,11 @@ int main(void) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //window width and hight
-    unsigned int width{960},height{540};
+    unsigned int width{960}, height{540};
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
-    if (!window) {
+    if (!window)
+    {
         glfwTerminate();
         return -1;
     }
@@ -52,7 +55,7 @@ int main(void) {
     if (glewInit() != GLEW_OK)
         std::cout << "Glew init failed" << std::endl;
 
-    glViewport(0,0,width,height);
+    glViewport(0, 0, width, height);
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
 
@@ -66,32 +69,34 @@ int main(void) {
         ImGui_ImplGlfwGL3_Init(window, true);
         ImGui::StyleColorsDark();
 
-        test::Test* currentTest = nullptr;
-        test::TestMenu* testMenu = new test::TestMenu(currentTest);
+        test::Test *currentTest = nullptr;
+        test::TestMenu *testMenu = new test::TestMenu(currentTest);
         currentTest = testMenu;
 
         testMenu->RegisterTest<test::TestClearColor>("Clear color");
 
         test::TestClearColor test;
         /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window)) {
+        while (!glfwWindowShouldClose(window))
+        {
             /* Render here */
-            GLCall(glClearColor(0.0f,0.f,0.0f,1.0f));
+            GLCall(glClearColor(0.0f, 0.f, 0.0f, 1.0f));
             renderer.clear();
 
 
-
             ImGui_ImplGlfwGL3_NewFrame();
-            if(currentTest){
-              currentTest->OnUpdate(0.0f);
-              currentTest->OnRender();
-              ImGui::Begin("Test");
-              if(currentTest != testMenu && ImGui::Button("<-")){
-                  delete currentTest;
-                  currentTest = testMenu;
-              }
-              currentTest->OnImGuiRender();
-              ImGui::End();
+            if (currentTest)
+            {
+                currentTest->OnUpdate(0.0f);
+                currentTest->OnRender();
+                ImGui::Begin("Test");
+                if (currentTest != testMenu && ImGui::Button("<-"))
+                {
+                    delete currentTest;
+                    currentTest = testMenu;
+                }
+                currentTest->OnImGuiRender();
+                ImGui::End();
             }
 
             ImGui::Render();
@@ -102,7 +107,8 @@ int main(void) {
             /* Poll for and process events */
             glfwPollEvents();
         }
-        if(currentTest != testMenu){
+        if (currentTest != testMenu)
+        {
             delete testMenu;
         }
         delete currentTest;
