@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 
 //vertex shader
 const char* vertexShaderSource = "#version 330 core\n"
@@ -148,8 +149,8 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        //both the vertex buffer and the index buffer are bound to the vertex array object
         glBindVertexArray(VAO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 
         /* Swap front and back buffers */
