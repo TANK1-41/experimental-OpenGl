@@ -16,7 +16,7 @@ link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/)
 
 add_executable(${PROJECT_NAME} src/Application.cpp src/vender/stb_image/stb_image.cpp
         src/vender/imgui/imgui_impl_glfw_gl3.cpp src/vender/imgui/imgui.cpp src/vender/imgui/imgui_demo.cpp src/vender/imgui/imgui_draw.cpp
-        )
+        src/shader.cpp src/shader.h)
 target_link_libraries(${PROJECT_NAME} glew32 glfw3 opengl32)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
