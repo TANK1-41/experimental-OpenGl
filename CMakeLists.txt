@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 find_package(OpenGL REQUIRED)
-set(CMAKE_C_FLAGS -m32)
+
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include)
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include)
 include_directories(${PROJECT_SOURCE_DIR}/src/vender)
