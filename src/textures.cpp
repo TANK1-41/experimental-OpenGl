@@ -6,7 +6,9 @@
 #include "textures.h"
 #include "GL/glew.h"
 #include "stb_image/stb_image.h"
+
 unsigned int texture::s_slot{0};
+
 texture::texture(const char *fileLocation, unsigned int colorFormat)
         : m_renderID(NULL) {
     // texture 1
@@ -25,13 +27,10 @@ texture::texture(const char *fileLocation, unsigned int colorFormat)
     stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
 
     unsigned char *data = stbi_load(fileLocation, &width, &height, &nrChannels, 0);
-    if (data)
-    {
+    if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
+    } else {
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
@@ -39,7 +38,7 @@ texture::texture(const char *fileLocation, unsigned int colorFormat)
     s_slot++;
 }
 
-void texture::bind() const{
+void texture::bind() const {
     glActiveTexture(GL_TEXTURE0 + m_position);
     glBindTexture(GL_TEXTURE_2D, m_renderID);
 }
@@ -48,6 +47,6 @@ void texture::unBind() {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-unsigned int texture::getRenderID()const {
+unsigned int texture::getRenderID() const {
     return m_renderID;
 }
