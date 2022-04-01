@@ -7,13 +7,15 @@
 #include "GL/glew.h"
 #include "stb_image/stb_image.h"
 unsigned int texture::s_slot{0};
-texture::texture(const char* fileLocation,unsigned int colorFormat) {
+texture::texture(const char *fileLocation, unsigned int colorFormat)
+        : m_renderID(NULL) {
     // texture 1
     // ---------
     glGenTextures(1, &m_renderID);
     glBindTexture(GL_TEXTURE_2D, m_renderID);
     // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                    GL_REPEAT);    // set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

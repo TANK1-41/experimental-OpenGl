@@ -11,15 +11,24 @@
 #include <xstring>
 
 class shader {
+private:
+    unsigned int ID;
 public:
     //the program ID assigned by open gl
-    unsigned int ID;
 
     //constructor reads and builds the shader
     shader(const char *vertexPath, const char *fragmentPath);
+
+    shader(const shader &rhs) = delete;
+
+    shader &operator=(shader &rhs) = delete;
+
     ~shader();
+
     //activiate / bind the shader
-    void use();
+    void use() const;
+
+    [[nodiscard]] unsigned int getID() const;
 
     //utility uniform functions
     void setBool(const std::string &name, bool value) const;
@@ -28,5 +37,5 @@ public:
 
     void setFloat(const std::string &name, float value) const;
 
-    void setVec4(const std::string &name, float v1,float v2,float v3,float v4) const;
+    void setVec4(const std::string &name, float v1, float v2, float v3, float v4) const;
 };

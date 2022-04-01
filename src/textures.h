@@ -12,12 +12,17 @@ private:
     unsigned int m_renderID;
     unsigned int m_position;
 public:
-    texture(const char* fileLocation,unsigned int colorFormat);
+    texture(const char *fileLocation, unsigned int colorFormat);
 
-    void bind()const;
+    texture(const texture &rhs) = delete;
+
+    texture &operator=(texture &rhs) = delete;
+
+    void bind() const;
+
     void unBind();
-    void activateTexture();
-    unsigned int getRenderID()const;
+
+    [[nodiscard]] unsigned int getRenderID() const;
 };
 
 

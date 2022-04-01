@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <vector>
 #include "shader.h"
 #include "stb_image/stb_image.h"
 #include "textures.h"
@@ -14,8 +13,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 
-int main(void)
-{
+int main() {
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -23,7 +21,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello World", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -94,7 +92,7 @@ int main(void)
     texture tex1("res/textures/container.jpg",GL_RGB);
     texture tex2("res/textures/awesomeface.png",GL_RGBA);
     // either set it manually like so:
-    //glUniform1i(glGetUniformLocation(l_shader.ID, "texture1"), 0);
+    //glUniform1i(glGetUniformLocation(l_shader.getID(), "texture1"), 0);
     // or set it via the texture class
     l_shader.setInt("texture1",0);
     l_shader.setInt("texture2", 1);
