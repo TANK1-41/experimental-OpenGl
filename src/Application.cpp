@@ -29,7 +29,8 @@ int main(void)
         glfwTerminate();
         return -1;
     }
-
+    //sets vsync
+    glfwSwapInterval(1);
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     //specifies the view of the window -https://learnopengl.com/Getting-started/Hello-Window
@@ -97,7 +98,6 @@ int main(void)
     // or set it via the texture class
     l_shader.setInt("texture1",0);
     l_shader.setInt("texture2", 1);
-    //l_shader.setInt("texture1", 0);
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
