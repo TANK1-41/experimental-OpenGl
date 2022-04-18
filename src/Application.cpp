@@ -1,12 +1,12 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "shader.h"
 #include "stb_image/stb_image.h"
 #include "textures.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
@@ -33,7 +33,8 @@ int main()
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello World", nullptr, nullptr);
-    if (!window) {
+    if (!window)
+    {
         glfwTerminate();
         return -1;
     }
@@ -137,15 +138,6 @@ int main()
     // just bind it beforehand before rendering the respective triangle; this is another approach.
     glBindVertexArray(VAO);
 
-    //model matrix
-    //glm::mat4 model = glm::mat4(1.0f);
-    //model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-
-    //view matrix
-    //glm::mat4 view = glm::mat4(1.0f);
-    // note that we're translating the scene in the reverse direction of where we want to move
-    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
     //perspective matrix
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -189,7 +181,7 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        //moves view in a circle around radius
+        //moves view every frame
         const float radius = 5.0f;
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         viewLoc = glGetUniformLocation(l_shader.getID(), "view");
@@ -257,7 +249,8 @@ void processInput(GLFWwindow *window)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
