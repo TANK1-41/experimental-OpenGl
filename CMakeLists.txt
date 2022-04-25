@@ -11,9 +11,10 @@ include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include)
 include_directories(${PROJECT_SOURCE_DIR}/src/vender)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
+if(WIN32)
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib/Release/Win32/)
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2019/)
-
+endif()
 add_executable(${PROJECT_NAME} src/Application.cpp src/vender/stb_image/stb_image.cpp
         src/vender/imgui/imgui_impl_glfw_gl3.cpp src/vender/imgui/imgui.cpp src/vender/imgui/imgui_demo.cpp src/vender/imgui/imgui_draw.cpp
         src/shader.cpp src/shader.h src/textures.cpp src/textures.h)
