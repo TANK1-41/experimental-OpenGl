@@ -162,9 +162,6 @@ int main()
     shader l_shader("res/shaders/vertex.shader", "res/shaders/fragment.shader");
     l_shader.use();
 
-    //set uniforms for transformations
-    //int modelLoc = glGetUniformLocation(l_shader.getID(), "model");
-    //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
     //set view
     int viewLoc = glGetUniformLocation(l_shader.getID(), "view");
