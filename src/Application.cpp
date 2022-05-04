@@ -145,12 +145,6 @@ int main()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    // glBindVertexArray(0);
-
-
-    // bind the VAO (it was already bound, but just to demonstrate): seeing as we only have a single VAO we can
     // just bind it beforehand before rendering the respective triangle; this is another approach.
     glBindVertexArray(VAO);
 
@@ -177,8 +171,7 @@ int main()
     //textures
     texture tex1("res/textures/container.jpg", GL_RGB);
     texture tex2("res/textures/awesomeface.png", GL_RGBA);
-    // either set it manually like so:
-    //glUniform1i(glGetUniformLocation(l_shader.getID(), "texture1"), 0);
+
     // or set it via the texture class
     l_shader.setInt("texture1", 0);
     l_shader.setInt("texture2", 1);
